@@ -1,0 +1,6 @@
+{
+  "name": "FITSYNC",
+  "description": "FITSYNC is a universal clothing-size recommendation and calibration platform bridging body anatomy and garment geometry for shoppers and global apparel brands.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
