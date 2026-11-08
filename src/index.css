@@ -4,7 +4,8 @@
 
 @layer base {
   :root {
-    color-scheme: dark;
+    color-scheme: light;
+    --font-serif: 'Fraunces', Georgia, serif;
     --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
@@ -12,8 +13,12 @@
   html {
     font-family: var(--font-sans);
     scroll-behavior: smooth;
-    background-color: #090a0f;
-    color: #f4f4f5;
+    background-color: #F9F8F5;
+    color: #141518;
+  }
+
+  h1, h2, .font-serif {
+    font-family: var(--font-serif);
   }
 
   code, pre, .font-mono {
@@ -21,21 +26,37 @@
   }
 }
 
-/* Subtle dark aesthetic scrollbar */
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visible focus states for WCAG 2.2 */
+:focus-visible {
+  outline: 2px solid #141518;
+  outline-offset: 2px;
+}
+
+/* Warm atelier scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090a0f;
+  background: #F2EFEB;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 9999px;
+  background: #C8C2B7;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #918A80;
 }

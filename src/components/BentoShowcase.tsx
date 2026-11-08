@@ -1,142 +1,106 @@
-import { Database, GitBranch, Shield, Zap, RefreshCw, Terminal } from 'lucide-react';
+import { ArrowRight, Layers, Ruler, CheckCircle2 } from 'lucide-react';
 
-export default function BentoShowcase() {
+interface HowMakersConnectProps {
+  onOpenWaitlist: () => void;
+}
+
+export default function BentoShowcase({ onOpenWaitlist }: HowMakersConnectProps) {
+  const stages = [
+    {
+      number: '01',
+      title: 'Share Garment Specifications',
+      text: 'Participating clothing makers could provide finished garment measurements, size labels, intended fit and measurement methods. These details provide a more useful reference than a letter label alone.',
+      icon: Layers,
+    },
+    {
+      number: '02',
+      title: 'Compare Measurements',
+      text: 'The platform is designed to compare relevant shopper measurements with available garment specifications, taking garment category and intended ease into account.',
+      icon: Ruler,
+    },
+    {
+      number: '03',
+      title: 'Explain the Size Match',
+      text: 'The goal is to show shoppers why a particular size may be more suitable, which measurements support the comparison and where information is incomplete.',
+      icon: CheckCircle2,
+    },
+  ];
+
   return (
-    <section id="architecture" className="py-24 border-b border-zinc-850 bg-[#0c0d13]">
+    <section id="for-brands" className="py-20 md:py-28 border-b border-[#DDD8D0] bg-[#F9F8F5]">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
-          <div className="text-xs font-mono uppercase tracking-widest text-zinc-400 mb-3">
-            03. Systems Architecture
+        <div className="max-w-3xl mb-14 md:mb-18">
+          <div className="text-xs font-mono uppercase tracking-widest text-[#7A4B2F] mb-3 font-semibold">
+            04. Platform Vision
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight [text-wrap:balance]">
-            Engineered for Developers, Retailers, and Shoppers.
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-[#141518] tracking-tight [text-wrap:balance]">
+            How clothing makers could connect with FITSYNC.
           </h2>
-          <p className="mt-4 text-base text-zinc-400 leading-relaxed">
-            FITSYNC is designed as an open interoperability layer. Build headless retail extensions, sync with relational databases, and integrate via standardized JSON protocols.
+          <p className="mt-4 text-base sm:text-lg text-[#4E4B45] leading-relaxed">
+            FITSYNC is being designed to bring shopper measurements and garment specifications into a clearer, more consistent comparison process.
           </p>
         </div>
 
-        {/* Asymmetric Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          
-          {/* Card 1: Quantified Return Rate Impact (Col span 2) */}
-          <div className="md:col-span-2 p-8 rounded-lg border border-zinc-800 bg-zinc-900/60 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">
-                <span>E-Commerce Logistics Impact</span>
-                <RefreshCw className="w-4 h-4 text-zinc-400" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-3">
-                Targeting the 38% Fit-Friction Return Crisis.
-              </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">
-                Nearly 40% of all online fashion returns stem directly from size and cut ambiguity, generating billions in reverse-logistics emissions and markdowns. FITSYNC replaces customer guesswork with deterministic garment pattern alignment.
-              </p>
-            </div>
+        {/* 3-Stage Editorial Workflow with Vertical Dividers on Desktop */}
+        <div className="border-t border-b border-[#DDD8D0] py-8 md:py-12 mb-14">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#DDD8D0]">
+            {stages.map((stage) => {
+              const Icon = stage.icon;
+              return (
+                <div
+                  key={stage.number}
+                  className="py-8 md:py-4 px-0 md:px-8 first:md:pl-0 last:md:pr-0 flex flex-col justify-between"
+                >
+                  <div>
+                    {/* Number & Stage indicator */}
+                    <div className="flex items-center justify-between text-xs font-mono text-[#7A4B2F] uppercase tracking-wider mb-4">
+                      <span>STAGE {stage.number}</span>
+                      <Icon className="w-4 h-4 text-[#141518]" />
+                    </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-8 mt-6 border-t border-zinc-800">
-              <div>
-                <div className="font-mono text-3xl font-bold text-white tabular-nums">38%</div>
-                <div className="text-xs text-zinc-400 mt-1">Average e-commerce return rate due to sizing error</div>
-              </div>
-              <div>
-                <div className="font-mono text-3xl font-bold text-white tabular-nums">1.2B</div>
-                <div className="text-xs text-zinc-400 mt-1">Pounds of return transit waste generated annually</div>
-              </div>
-              <div>
-                <div className="font-mono text-3xl font-bold text-white tabular-nums">94%</div>
-                <div className="text-xs text-zinc-400 mt-1">First-try fit accuracy when using geometry matching</div>
-              </div>
-            </div>
-          </div>
+                    {/* Stage title */}
+                    <h3 className="font-serif text-2xl font-semibold text-[#141518] mb-3">
+                      {stage.title}
+                    </h3>
 
-          {/* Card 2: Supabase Integration Ready (Col span 1) */}
-          <div className="p-8 rounded-lg border border-zinc-800 bg-zinc-900/60 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">
-                <span>Database Architecture</span>
-                <Database className="w-4 h-4 text-zinc-400" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">
-                Supabase & PostgreSQL Ready
-              </h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Pre-configured database adapters with UUID-keyed fit profile schemas, row-level security policies, and automated migration scripts.
-              </p>
-            </div>
+                    {/* Stage description */}
+                    <p className="text-sm sm:text-base text-[#4E4B45] leading-relaxed">
+                      {stage.text}
+                    </p>
+                  </div>
 
-            <div className="mt-6 pt-4 border-t border-zinc-800 font-mono text-[11px] text-zinc-400 space-y-1">
-              <div className="text-zinc-300">TABLE: public.user_fit_profiles</div>
-              <div>AUTH: Row-Level Security (RLS)</div>
-              <div>INDEX: btree(fit_id)</div>
-            </div>
-          </div>
-
-          {/* Card 3: GitHub & Open Source Ecosystem (Col span 1) */}
-          <div className="p-8 rounded-lg border border-zinc-800 bg-zinc-900/60 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">
-                <span>Ecosystem Readiness</span>
-                <GitBranch className="w-4 h-4 text-zinc-400" />
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">
-                Modular GitHub Architecture
-              </h3>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Engineered with strict TypeScript separation between physical anthropometry calculation, database adapters, and UI components.
-              </p>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-zinc-800 font-mono text-[11px] text-zinc-400">
-              <span className="text-zinc-200">packages/</span>
-              <div className="pl-3 space-y-0.5 mt-1">
-                <div>├── core-geometry</div>
-                <div>├── supabase-adapter</div>
-                <div>└── react-embed</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 4: Zero-Knowledge Biometric Privacy (Col span 2) */}
-          <div className="md:col-span-2 p-8 rounded-lg border border-zinc-800 bg-zinc-900/60 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between text-xs font-mono text-zinc-400 uppercase tracking-wider mb-4">
-                <span>Privacy by Design</span>
-                <Shield className="w-4 h-4 text-zinc-400" />
-              </div>
-              <h3 className="text-2xl font-bold text-white mb-2">
-                Private Biometric Enclaves
-              </h3>
-              <p className="text-sm text-zinc-400 leading-relaxed max-w-xl">
-                Brands never receive your raw measurements. Retail checkouts only query whether their specific garment pattern coordinate bounds (tolerance thresholds) accept your hashed Universal Fit Vector.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 pt-6 mt-4 border-t border-zinc-800 text-xs">
-              <div className="flex items-start gap-3">
-                <Zap className="w-4 h-4 text-zinc-300 mt-0.5 shrink-0" />
-                <div>
-                  <div className="font-semibold text-white">Client-Side Computation</div>
-                  <div className="text-zinc-400 text-[11px] mt-0.5">
-                    Anatomical vectors are calculated on your device prior to encrypted tokenization.
+                  <div className="pt-6 mt-6 border-t border-[#F2EFEB] text-xs font-mono text-[#8F94A0]">
+                    <span>CONCEPTUAL SPECIFICATION</span>
                   </div>
                 </div>
-              </div>
+              );
+            })}
+          </div>
+        </div>
 
-              <div className="flex items-start gap-3">
-                <Terminal className="w-4 h-4 text-zinc-300 mt-0.5 shrink-0" />
-                <div>
-                  <div className="font-semibold text-white">One-Click Retail Auth</div>
-                  <div className="text-zinc-400 text-[11px] mt-0.5">
-                    Connect your Fit ID to Shopify, headless storefronts, or custom tailor systems.
-                  </div>
-                </div>
-              </div>
+        {/* Quiet Callout for Clothing Makers */}
+        <div className="p-8 sm:p-10 rounded-sm border border-[#DDD8D0] bg-[#F2EFEB] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="max-w-2xl">
+            <div className="text-xs font-mono uppercase text-[#7A4B2F] tracking-wider mb-1 font-semibold">
+              Clothing Maker Pilot
             </div>
+            <h4 className="font-serif text-xl sm:text-2xl font-semibold text-[#141518]">
+              Are you an apparel brand, independent tailor or clothing designer?
+            </h4>
+            <p className="text-xs sm:text-sm text-[#4E4B45] mt-1.5 leading-relaxed">
+              We are consulting with apparel makers to test how finished garment measurement tables can be shared cleanly. Join our early discussion group.
+            </p>
           </div>
 
+          <button
+            type="button"
+            onClick={onOpenWaitlist}
+            className="px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#F9F8F5] bg-[#141518] rounded-xs hover:bg-[#7A4B2F] transition-all whitespace-nowrap shrink-0 cursor-pointer shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#141518]"
+          >
+            Participate as a Maker
+          </button>
         </div>
 
       </div>

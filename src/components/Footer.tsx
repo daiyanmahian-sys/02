@@ -4,51 +4,51 @@ interface FooterProps {
 
 export default function Footer({ onOpenWaitlist }: FooterProps) {
   return (
-    <footer className="w-full bg-[#07080c] border-t border-zinc-850 py-16 text-xs text-zinc-400">
+    <footer className="w-full bg-[#F2EFEB] border-t border-[#DDD8D0] py-16 text-xs text-[#4E4B45]">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-zinc-850">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-[#DDD8D0]">
           
-          {/* Col 1: Wordmark & Mission */}
+          {/* Col 1: Wordmark & Purpose */}
           <div className="md:col-span-2">
             <a
               href="/"
-              className="text-lg font-bold tracking-tight text-white flex items-center gap-2 mb-3"
+              className="font-serif text-2xl font-semibold tracking-tight text-[#141518] flex items-center gap-2 mb-3"
             >
-              <span className="inline-block w-2 h-2 bg-white rounded-xs" aria-hidden="true" />
+              <span className="inline-block w-2 h-2 bg-[#7A4B2F] rounded-xs" aria-hidden="true" />
               FITSYNC
             </a>
-            <p className="text-zinc-400 max-w-sm leading-relaxed mb-4 text-xs">
-              Universal clothing-size recommendation and anatomical calibration platform. Bridging human physical geometry with global apparel pattern grading.
+            <p className="text-[#4E4B45] max-w-sm leading-relaxed mb-4 text-xs">
+              A universal personal measurement profile that helps clothing shoppers find consistent, appropriate sizes across different apparel brands and garment cuts.
             </p>
-            <div className="text-[11px] text-zinc-400 font-mono">
-              Architecture: Modular React + TypeScript · Prepared for Supabase & GitHub
+            <div className="text-[11px] text-[#4E4B45] font-mono">
+              Measurement Baseline: Standardized Anthropometric Reference Definitions
             </div>
           </div>
 
           {/* Col 2: Navigation Links */}
           <div>
-            <div className="font-mono text-zinc-300 font-semibold uppercase tracking-wider mb-3">
-              Platform
+            <div className="font-mono text-[#141518] font-semibold uppercase tracking-wider mb-3">
+              Sections
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               <li>
-                <a href="#calibrator" className="hover:text-zinc-200 transition-colors">
-                  Interactive Calibrator
+                <a href="#how-it-works" className="hover:text-[#141518] transition-colors">
+                  How It Works
                 </a>
               </li>
               <li>
-                <a href="#engine" className="hover:text-zinc-200 transition-colors">
-                  Measurement Engine
+                <a href="#why-sizes-differ" className="hover:text-[#141518] transition-colors">
+                  Why Sizes Differ
                 </a>
               </li>
               <li>
-                <a href="#architecture" className="hover:text-zinc-200 transition-colors">
-                  Systems Architecture
+                <a href="#measurement-room" className="hover:text-[#141518] transition-colors">
+                  Measurement Room
                 </a>
               </li>
               <li>
-                <a href="#for-brands" className="hover:text-zinc-200 transition-colors">
-                  Brand Integration Spec
+                <a href="#for-brands" className="hover:text-[#141518] transition-colors">
+                  For Clothing Makers
                 </a>
               </li>
             </ul>
@@ -56,20 +56,20 @@ export default function Footer({ onOpenWaitlist }: FooterProps) {
 
           {/* Col 3: Standards & Connect */}
           <div>
-            <div className="font-mono text-zinc-300 font-semibold uppercase tracking-wider mb-3">
-              Standards
+            <div className="font-mono text-[#141518] font-semibold uppercase tracking-wider mb-3">
+              Principles
             </div>
-            <ul className="space-y-2">
-              <li className="text-zinc-400">ISO 8559-1 Anthropometry</li>
-              <li className="text-zinc-400">ASTM D5585 Body Standard</li>
-              <li className="text-zinc-400">Zero-Vanity Sizing Policy</li>
+            <ul className="space-y-2.5">
+              <li className="text-[#4E4B45]">ISO 8559-1 Measurement Landmarks</li>
+              <li className="text-[#4E4B45]">ASTM D5585 Body Dimension References</li>
+              <li className="text-[#4E4B45]">Private, Opaque Profile Identifiers</li>
               <li className="pt-2">
                 <button
                   type="button"
                   onClick={onOpenWaitlist}
-                  className="text-white hover:underline cursor-pointer font-medium"
+                  className="text-[#7A4B2F] hover:underline cursor-pointer font-medium"
                 >
-                  Join Early Access Waitlist →
+                  Join Early Access Registry →
                 </button>
               </li>
             </ul>
@@ -78,16 +78,16 @@ export default function Footer({ onOpenWaitlist }: FooterProps) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-400">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-[#4E4B45]">
           <div>
-            © {new Date().getFullYear()} FITSYNC Platform Inc. All rights reserved.
+            © {new Date().getFullYear()} FITSYNC Platform. Built with architectural tailoring precision.
           </div>
           <div className="flex items-center gap-6">
-            <span className="hover:text-zinc-400">Privacy Policy</span>
+            <span>Privacy Policy</span>
             <span>·</span>
-            <span className="hover:text-zinc-400">Terms of Protocol</span>
+            <span>Terms of Service</span>
             <span>·</span>
-            <span className="hover:text-zinc-400">Security Disclosures</span>
+            <span>Accessibility (WCAG 2.2 AA)</span>
           </div>
         </div>
 

@@ -71,8 +71,33 @@ export const DEFAULT_MEASUREMENTS: BodyMeasurements = {
 };
 
 /**
- * Generate a deterministic Universal Fit Identifier based on ISO 8559 anthropometry.
- * Example: FS-C98-W82-H178-T
+ * Generates an opaque, non-descriptive profile identifier.
+ * Does not expose raw anatomical numbers (e.g. chest or waist cm) in plain text.
+ * NOTE: While this protects personal measurements from visual exposure,
+ * it is a reference token and does not replace cryptographic authentication.
+ */
+function generateOpaqueProfileId(
+  chest: number,
+  waist: number,
+  height: number,
+  inseam: number,
+  silhouette: string
+): string {
+  // Deterministic seed based on coordinates
+  const seed = (Math.round(chest) * 31 + Math.round(waist) * 17 + Math.round(height) * 7 + Math.round(inseam) * 3 + silhouette.length * 13) % 100000;
+  const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let token = '';
+  let n = seed + 48271;
+  for (let i = 0; i < 5; i++) {
+    token += chars.charAt(n % chars.length);
+    n = Math.floor(n / chars.length) + (i + 1) * 7;
+  }
+  return `DEMO-${token}`;
+}
+
+/**
+ * Generate a deterministic Universal Fit Identifier based on standardized anthropometric definitions.
+ * Clearly separates bare-body measurements from illustrative garment ease.
  */
 export function calculateUniversalFitVector(
   measurements: BodyMeasurements,
@@ -83,22 +108,23 @@ export function calculateUniversalFitVector(
   const waistCm = measurements.unit === 'cm' ? measurements.waist : inToCm(measurements.waist);
   const heightCm = measurements.unit === 'cm' ? measurements.height : inToCm(measurements.height);
   const inseamCm = measurements.unit === 'cm' ? measurements.inseam : inToCm(measurements.inseam);
+  const shoulderCm = measurements.unit === 'cm' ? measurements.shoulder : inToCm(measurements.shoulder);
 
   // Anatomical drop: difference between chest circumference and waist circumference
   const dropCm = chestCm - waistCm;
   const taperRatio = waistCm > 0 ? Math.round((waistCm / chestCm) * 100) / 100 : 0.84;
 
-  // Height / Inseam classification (S: Short, R: Regular, L: Long)
-  let lengthClass = 'R';
+  // Stature categorization based on total height
+  let lengthClass = 'Regular Stature';
   if (heightCm < 172) {
-    lengthClass = 'S';
+    lengthClass = 'Shorter Stature';
   } else if (heightCm > 185) {
-    lengthClass = 'L';
+    lengthClass = 'Taller Stature';
   }
 
-  // Torso proportion categorization
+  // Torso proportion categorization based on inside leg to stature ratio
   const inseamToHeight = heightCm > 0 ? (inseamCm / heightCm) * 100 : 45;
-  let torsoProportion = 'Balanced Torso';
+  let torsoProportion = 'Balanced Torso Proportions';
   if (inseamToHeight > 47) {
     torsoProportion = 'Longer Inseam / Compact Torso';
   } else if (inseamToHeight < 43) {
@@ -106,18 +132,51 @@ export function calculateUniversalFitVector(
   }
 
   const easeProfile = SILHOUETTE_PROFILES[silhouette];
-  const easeCode = silhouette.charAt(0).toUpperCase();
+  const roundedChest = Math.round(chestCm * 10) / 10;
+  const roundedWaist = Math.round(waistCm * 10) / 10;
+  const roundedShoulder = Math.round(shoulderCm * 10) / 10;
+  const roundedHeight = Math.round(heightCm * 10) / 10;
+  const roundedInseam = Math.round(inseamCm * 10) / 10;
 
-  // Deterministic FITSYNC Identifier
-  const fitId = `FS-${Math.round(chestCm)}C-${Math.round(waistCm)}W-${lengthClass}${easeCode}`;
+  // Finished garment circumferences (body + ease)
+  const targetGarmentChest = Math.round((roundedChest + easeProfile.chestEaseCm) * 10) / 10;
+  const targetGarmentWaist = Math.round((roundedWaist + easeProfile.waistEaseCm) * 10) / 10;
+
+  // Flat garment widths (standard tailoring pit-to-pit = half circumference)
+  const garmentFlatWidthChest = Math.round((targetGarmentChest / 2) * 10) / 10;
+  const garmentFlatWidthWaist = Math.round((targetGarmentWaist / 2) * 10) / 10;
+  const garmentShoulderWidth = Math.round((roundedShoulder + 1.5) * 10) / 10;
+
+  // Temporary demonstration reference token (does not disclose raw body numbers)
+  const fitId = generateOpaqueProfileId(chestCm, waistCm, heightCm, inseamCm, silhouette);
+
+  // Measure genuine profile completeness
+  const coreFields = [chestCm, waistCm, heightCm, inseamCm, shoulderCm];
+  const providedCount = coreFields.filter(f => f > 0).length;
 
   return {
     fitId,
-    chestBaselineCm: Math.round(chestCm * 10) / 10,
-    waistBaselineCm: Math.round(waistCm * 10) / 10,
+    bodyChestCm: roundedChest,
+    bodyWaistCm: roundedWaist,
+    bodyShoulderCm: roundedShoulder,
+    bodyHeightCm: roundedHeight,
+    bodyInseamCm: roundedInseam,
+    illustrativeEaseCm: easeProfile.chestEaseCm,
+    targetGarmentChestCm: targetGarmentChest,
+    targetGarmentWaistCm: targetGarmentWaist,
+    garmentFlatWidthChestCm: garmentFlatWidthChest,
+    garmentFlatWidthWaistCm: garmentFlatWidthWaist,
+    garmentShoulderWidthCm: garmentShoulderWidth,
     taperRatio,
     torsoProportion,
+    statureCategory: lengthClass,
+    profileCompleteness: {
+      providedFields: providedCount,
+      totalFields: 5,
+    },
+    // Backward-compatibility aliases
+    chestBaselineCm: roundedChest,
+    waistBaselineCm: roundedWaist,
     recommendedEaseCm: easeProfile.chestEaseCm,
-    standardConfidence: 0.99,
   };
 }

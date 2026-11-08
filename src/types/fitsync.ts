@@ -27,13 +27,29 @@ export interface SilhouetteTolerance {
 }
 
 export interface UniversalFitVector {
-  fitId: string;
+  fitId: string; // Temporary demonstration profile reference (e.g. DEMO-7X9K2)
+  bodyChestCm: number; // Bare skin body dimension
+  bodyWaistCm: number;
+  bodyShoulderCm: number;
+  bodyHeightCm: number;
+  bodyInseamCm: number;
+  illustrativeEaseCm: number; // Selected silhouette ease offset
+  targetGarmentChestCm: number; // Finished garment circumference (body + ease)
+  targetGarmentWaistCm: number;
+  garmentFlatWidthChestCm: number; // Finished garment flat width (pit-to-pit = chest / 2)
+  garmentFlatWidthWaistCm: number; // Finished garment flat width (waist / 2)
+  garmentShoulderWidthCm: number; // Finished garment shoulder seam allowance (shoulder + 1.5cm)
+  taperRatio: number; // Body waist-to-chest ratio
+  torsoProportion: string; // Proportional category
+  statureCategory: string; // Short / Regular / Long stature category
+  profileCompleteness: {
+    providedFields: number;
+    totalFields: number;
+  };
+  // Aliases for compatibility
   chestBaselineCm: number;
   waistBaselineCm: number;
-  taperRatio: number; // waist-to-chest drop
-  torsoProportion: string;
   recommendedEaseCm: number;
-  standardConfidence: number; // e.g. 0.98 based on ISO 8559 measurement completeness
 }
 
 export interface WaitlistSubmission {

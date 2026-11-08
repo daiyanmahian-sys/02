@@ -6,7 +6,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 app.use(express.json());
 
@@ -101,6 +100,26 @@ app.get('/api/waitlist/stats', (_req, res) => {
   });
 });
 
+function getPort(): number {
+  const portIndex = process.argv.indexOf('--port');
+  if (portIndex !== -1 && process.argv[portIndex + 1]) {
+    const parsed = parseInt(process.argv[portIndex + 1], 10);
+    if (!isNaN(parsed)) return parsed;
+  }
+  return process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+}
+
+function getHost(): string {
+  const hostIndex = process.argv.indexOf('--host');
+  if (hostIndex !== -1 && process.argv[hostIndex + 1]) {
+    return process.argv[hostIndex + 1];
+  }
+  return '0.0.0.0';
+}
+
+const PORT = getPort();
+const HOST = getHost();
+
 // Start server with Vite middleware in dev or static files in production
 async function startServer() {
   const isProduction = process.env.NODE_ENV === 'production';
@@ -112,6 +131,22 @@ async function startServer() {
       appType: 'spa',
     });
     app.use(vite.middlewares);
+
+    // Explicit fallback for client-side routing
+    app.use('*', async (req, res, next) => {
+      const url = req.originalUrl;
+      if (url.startsWith('/api')) {
+        return next();
+      }
+      try {
+        const fs = await import('fs/promises');
+        let template = await fs.readFile(path.resolve(__dirname, 'index.html'), 'utf-8');
+        template = await vite.transformIndexHtml(url, template);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
+      } catch (e) {
+        next(e);
+      }
+    });
   } else {
     app.use(express.static(path.join(__dirname, 'dist')));
     app.get('*', (_req, res) => {
@@ -119,8 +154,8 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`FITSYNC server running on http://0.0.0.0:${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`FITSYNC server running on http://${HOST}:${PORT}`);
   });
 }
 

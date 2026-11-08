@@ -61,18 +61,18 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#141518]/70 backdrop-blur-xs transition-opacity"
     >
-      {/* Backdrop click handler */}
+      {/* Backdrop click */}
       <div className="absolute inset-0" onClick={handleReset} />
 
       {/* Modal Card */}
-      <div className="relative w-full max-w-lg bg-[#0e1017] border border-zinc-800 rounded-lg p-6 sm:p-8 shadow-2xl z-10">
+      <div className="relative w-full max-w-lg bg-[#FFFFFF] border border-[#DDD8D0] rounded-sm p-6 sm:p-8 shadow-2xl z-10 text-[#141518]">
         
         {/* Close Button */}
         <button
           onClick={handleReset}
-          className="absolute top-5 right-5 text-zinc-400 hover:text-white transition-colors cursor-pointer"
+          className="absolute top-5 right-5 text-[#4E4B45] hover:text-[#141518] transition-colors cursor-pointer p-1 rounded-xs focus-visible:outline-2 focus-visible:outline-[#141518]"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
@@ -80,25 +80,25 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
 
         {status === 'success' ? (
           <div className="text-center py-6">
-            <div className="w-12 h-12 mx-auto rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center text-white mb-4">
+            <div className="w-12 h-12 mx-auto rounded-full bg-[#F2EFEB] border border-[#DDD8D0] flex items-center justify-center text-[#7A4B2F] mb-4">
               <CheckCircle className="w-6 h-6" />
             </div>
-            <h3 id="modal-title" className="text-xl font-bold text-white mb-2">
+            <h3 id="modal-title" className="font-serif text-2xl font-semibold text-[#141518] mb-2">
               Early Access Confirmed
             </h3>
-            <p className="text-sm text-zinc-300 leading-relaxed max-w-sm mx-auto mb-4">
+            <p className="text-sm text-[#4E4B45] leading-relaxed max-w-sm mx-auto mb-4">
               {successInfo?.message || 'Your FITSYNC reservation is confirmed.'}
             </p>
             {successInfo?.position && (
-              <div className="inline-block px-3 py-1 bg-zinc-900 border border-zinc-800 rounded text-xs font-mono text-zinc-400 mb-6">
-                Priority Waitlist ID: #{successInfo.position}
+              <div className="inline-block px-3 py-1 bg-[#F9F8F5] border border-[#DDD8D0] rounded-xs text-xs font-mono text-[#7A4B2F] mb-6">
+                Reservation Priority: #{successInfo.position}
               </div>
             )}
             <div>
               <button
                 type="button"
                 onClick={handleReset}
-                className="w-full py-3 text-xs font-semibold uppercase tracking-wider text-black bg-white rounded-sm hover:bg-zinc-200 transition-all cursor-pointer"
+                className="w-full py-3 text-xs font-semibold uppercase tracking-wider text-[#F9F8F5] bg-[#141518] rounded-xs hover:bg-[#7A4B2F] transition-all cursor-pointer"
               >
                 Close
               </button>
@@ -106,18 +106,18 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
           </div>
         ) : (
           <div>
-            <div className="text-xs font-mono text-zinc-400 uppercase tracking-widest mb-1">
+            <div className="text-xs font-mono text-[#7A4B2F] uppercase tracking-widest mb-1.5">
               FITSYNC PILOT INVITATION
             </div>
-            <h3 id="modal-title" className="text-2xl font-bold text-white mb-2 tracking-tight">
-              Reserve Early Access.
+            <h3 id="modal-title" className="font-serif text-2xl sm:text-3xl font-semibold text-[#141518] mb-2 tracking-tight">
+              Reserve your measurement profile.
             </h3>
-            <p className="text-xs text-zinc-400 mb-6 leading-relaxed">
-              Join the initial cohort testing universal size translation across brand catalogs and custom atelier integrations.
+            <p className="text-xs sm:text-sm text-[#4E4B45] mb-6 leading-relaxed">
+              Join the initial cohort exploring universal measurement profiles and standard garment ease translation.
             </p>
 
             {status === 'error' && errorMessage && (
-              <div className="mb-4 p-3 bg-red-950/50 border border-red-800/80 rounded text-xs text-red-300">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xs text-xs text-red-800">
                 {errorMessage}
               </div>
             )}
@@ -125,23 +125,23 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Role Selector */}
               <div>
-                <label className="block text-xs font-mono uppercase text-zinc-400 mb-2">
+                <label className="block text-xs font-mono uppercase text-[#4E4B45] mb-2">
                   I am participating as:
                 </label>
                 <div className="grid grid-cols-3 gap-2">
                   {[
                     { id: 'shopper', label: 'Shopper' },
-                    { id: 'brand', label: 'Brand / Retail' },
-                    { id: 'developer', label: 'Engineer' },
+                    { id: 'brand', label: 'Clothing Brand' },
+                    { id: 'developer', label: 'Tailor / Atelier' },
                   ].map((role) => (
                     <button
                       key={role.id}
                       type="button"
                       onClick={() => setUserType(role.id as 'shopper' | 'brand' | 'developer')}
-                      className={`py-2 px-3 text-xs font-medium rounded border transition-all cursor-pointer ${
+                      className={`py-2 px-3 text-xs font-medium rounded-xs border transition-all cursor-pointer ${
                         userType === role.id
-                          ? 'bg-zinc-800 border-zinc-500 text-white'
-                          : 'bg-zinc-950/60 border-zinc-800 text-zinc-400 hover:text-zinc-200'
+                          ? 'bg-[#141518] border-[#141518] text-[#F9F8F5]'
+                          : 'bg-[#F9F8F5] border-[#918A80] text-[#4E4B45] hover:border-[#141518] hover:text-[#141518]'
                       }`}
                     >
                       {role.label}
@@ -150,49 +150,49 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
                 </div>
               </div>
 
-              {/* Email Input */}
+              {/* Email Input with WCAG 2.2 compliant border */}
               <div>
-                <label htmlFor="email" className="block text-xs font-mono uppercase text-zinc-400 mb-1.5">
+                <label htmlFor="modal-email" className="block text-xs font-mono uppercase text-[#4E4B45] mb-1.5">
                   Email Address *
                 </label>
                 <input
-                  id="email"
+                  id="modal-email"
                   type="email"
                   required
                   placeholder="name@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-zinc-800 rounded focus:outline-hidden focus:border-zinc-500 text-white placeholder-zinc-600 transition-colors"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FFFFFF] border border-[#918A80] rounded-xs focus:outline-hidden focus:border-[#141518] focus:ring-1 focus:ring-[#141518] text-[#141518] placeholder-[#918A80] transition-colors"
                 />
               </div>
 
               {/* Brand / Company (Optional) */}
               <div>
-                <label htmlFor="company" className="block text-xs font-mono uppercase text-zinc-400 mb-1.5">
-                  {userType === 'shopper' ? 'Preferred Brands (Optional)' : 'Company / Brand / Storefront (Optional)'}
+                <label htmlFor="modal-company" className="block text-xs font-mono uppercase text-[#4E4B45] mb-1.5">
+                  {userType === 'shopper' ? 'Favorite Clothing Brands (Optional)' : 'Brand, Label or Studio Name (Optional)'}
                 </label>
                 <input
-                  id="company"
+                  id="modal-company"
                   type="text"
-                  placeholder={userType === 'shopper' ? 'e.g., Norse Projects, Acronym, Lemaire' : 'e.g., Studio Atelier Inc.'}
+                  placeholder={userType === 'shopper' ? 'e.g., Norse Projects, Margaret Howell, Uniqlo' : 'e.g., Studio Tailoring Atelier'}
                   value={brandOrCompany}
                   onChange={(e) => setBrandOrCompany(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-zinc-800 rounded focus:outline-hidden focus:border-zinc-500 text-white placeholder-zinc-600 transition-colors"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FFFFFF] border border-[#918A80] rounded-xs focus:outline-hidden focus:border-[#141518] focus:ring-1 focus:ring-[#141518] text-[#141518] placeholder-[#918A80] transition-colors"
                 />
               </div>
 
-              {/* Notes / Fit Challenges */}
+              {/* Fit Challenges / Notes */}
               <div>
-                <label htmlFor="notes" className="block text-xs font-mono uppercase text-zinc-400 mb-1.5">
-                  Biggest Fit Challenge or Goal (Optional)
+                <label htmlFor="modal-notes" className="block text-xs font-mono uppercase text-[#4E4B45] mb-1.5">
+                  Most Common Sizing Issue (Optional)
                 </label>
                 <textarea
-                  id="notes"
+                  id="modal-notes"
                   rows={2}
-                  placeholder="e.g., Broad shoulders with slim waist, sleeve lengths always too short..."
+                  placeholder="e.g., Shirts that fit my neck are too wide at the waist; sleeve lengths always vary..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-sm bg-zinc-950 border border-zinc-800 rounded focus:outline-hidden focus:border-zinc-500 text-white placeholder-zinc-600 transition-colors resize-none"
+                  className="w-full px-3.5 py-2.5 text-sm bg-[#FFFFFF] border border-[#918A80] rounded-xs focus:outline-hidden focus:border-[#141518] focus:ring-1 focus:ring-[#141518] text-[#141518] placeholder-[#918A80] transition-colors resize-none"
                 />
               </div>
 
@@ -201,7 +201,7 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-black bg-white rounded-sm hover:bg-zinc-200 transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-[#F9F8F5] bg-[#141518] rounded-xs hover:bg-[#7A4B2F] transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 shadow-xs focus-visible:outline-2 focus-visible:outline-[#141518]"
                 >
                   {status === 'loading' ? (
                     <>
@@ -210,15 +210,15 @@ export default function EarlyAccessModal({ isOpen, onClose }: EarlyAccessModalPr
                     </>
                   ) : (
                     <>
-                      <span>Submit Early Access Request</span>
+                      <span>Submit Pilot Request</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="text-[11px] text-zinc-400 text-center pt-2">
-                Zero spam. Your data will never be sold or shared with third-party advertisers.
+              <div className="text-[11px] text-[#4E4B45] text-center pt-2">
+                Privacy first. We do not sell personal measurements or share data with advertising networks.
               </div>
             </form>
           </div>
